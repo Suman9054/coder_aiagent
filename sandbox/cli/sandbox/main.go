@@ -17,6 +17,7 @@ func main() {
 	})
    
 	app.Post("/api/create",api.Create)
+	app.Post("/api/delet",api.Delete)
 
 	app.Listen("127.0.0.1:8080")
 }

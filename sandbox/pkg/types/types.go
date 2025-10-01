@@ -6,3 +6,7 @@ type Create_data struct{
    User_id string `json:"user_id"`
    ContanerId string
 }
+
+type Delete struct{
+   Id uint `json:"Id"`
+}

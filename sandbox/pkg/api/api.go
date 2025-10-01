@@ -42,3 +42,23 @@ func Create(c *fiber.Ctx) error{
 	})
 	
 }
+
+
+func Delete( c *fiber.Ctx)error{
+	var data types.Delete
+	var wg sync.WaitGroup
+	if err:= c.BodyParser(&data);err != nil{
+		return c.Status(400).JSON(fiber.Map{
+			"err":err.Error(),
+		})
+	}
+	wg.Add(1)
+	go crud.DeletSandbox(data.Id,&wg)
+	go func() {
+		wg.Wait()
+	}()
+	return c.Status(200).JSON(fiber.Map{
+		"message":"done",
+	})
+}
+

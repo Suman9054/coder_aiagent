@@ -2,13 +2,15 @@ package crud
 
 import (
 	"context"
+	
 	"os"
 	"path/filepath"
 	"sync"
 	"time"
-     "github.com/glebarez/sqlite"
+
 	"github.com/Suman9054/sandbox/pkg/db/schema"
 	"github.com/Suman9054/sandbox/pkg/types"
+	"github.com/glebarez/sqlite"
 	"gorm.io/gorm"
 )
 
@@ -35,6 +37,7 @@ func CreateSandbox(c *types.Create_data, wg *sync.WaitGroup, ch chan<- uint) {
 	sandbox := schema.Sandbox_shema{
 		UserId:     c.User_id,
 		Template:   c.Image,
+		State: "running",
 		ContanerId: c.ContanerId,
 		CreatedAT:  time.Now(),
 	}
@@ -48,6 +51,41 @@ func CreateSandbox(c *types.Create_data, wg *sync.WaitGroup, ch chan<- uint) {
 	ch <- sandbox.Id
 }
 
-func DeletSandbox(){
+func DeletSandbox(Id uint ,wg *sync.WaitGroup){
+	defer wg.Done()
+	ctx:= context.Background()
+    db:=Db()
+	_, err := gorm.G[schema.Sandbox_shema](db).Where("Id = ?",Id).Delete(ctx)
+
+	if err != nil {
+		panic("err"+err.Error())
+	}
+	
+	
 	
 }
+
+func StopSandbox(Id uint, wg *sync.WaitGroup){
+	defer wg.Done()
+	ctx:= context.Background()
+	db:= Db()
+    
+	_,err := gorm.G[schema.Sandbox_shema](db).Where("Id = ?",Id).Update(ctx,"State","stop")
+
+	if err != nil {
+		panic("err"+err.Error())
+	}
+ 
+}
+
+func RestartSandbox(Id uint,wg *sync.WaitGroup){
+  defer wg.Done()
+  db:=Db()
+  ctx:= context.Background()
+  _,err := gorm.G[schema.Sandbox_shema](db).Where("Id = ?",Id).Update(ctx,"State","runing")
+
+  if err != nil {
+	panic("err"+err.Error())
+  }
+}
+

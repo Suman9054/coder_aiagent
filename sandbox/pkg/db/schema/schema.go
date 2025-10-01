@@ -10,6 +10,7 @@ type Sandbox_shema struct {
 	UserId    string
 	Template  string
 	ContanerId string
+	State		string
 	CreatedAT time.Time
 	DeletedAt time.Time `gorm:"index"`
 }
