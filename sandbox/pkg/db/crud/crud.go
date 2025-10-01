@@ -28,8 +28,8 @@ func Db() *gorm.DB {
 	return db
 }
 
-func CreateSandbox(c *types.Create_data, wg *sync.WaitGroup, ch chan<- uint) {
-	defer wg.Done()
+func CreateSandbox(c *types.Create_data,  ch chan<- uint) {
+	
 
 	db := Db()
 	ctx := context.Background()
@@ -65,8 +65,8 @@ func DeletSandbox(Id uint ,wg *sync.WaitGroup){
 	
 }
 
-func StopSandbox(Id uint, wg *sync.WaitGroup){
-	defer wg.Done()
+func StopSandbox(Id uint){
+	
 	ctx:= context.Background()
 	db:= Db()
     

@@ -5,6 +5,7 @@ import (
 	"sync"
 
 	"github.com/Suman9054/sandbox/pkg/db/crud"
+	"github.com/Suman9054/sandbox/pkg/docker"
 	"github.com/Suman9054/sandbox/pkg/types"
 	"github.com/gofiber/fiber/v2"
 )
@@ -14,7 +15,9 @@ import (
 func Create(c *fiber.Ctx) error{
    var data types.Create_data
    ch:= make(chan uint);
+   cm:= make(chan string);
    var wg sync.WaitGroup
+   
    if err:= c.BodyParser(&data);err != nil{
 	return c.Status(400).JSON(fiber.Map{
 		"error":err.Error(),
@@ -25,20 +28,32 @@ func Create(c *fiber.Ctx) error{
 		"error":"emty fidels",
 	})
    }
-   wg.Add(1);
-   go crud.CreateSandbox(&data,&wg,ch);
-
-   go func (){
-    wg.Wait();
-	close(ch);
+   wg.Add(1)
+   go func(){
+     defer wg.Done()
+	 contanerId:=docker.CreateContaner(data.Image);
+	 cm<-contanerId;
    }()
+  contanerId:= <-cm ;
+  data.ContanerId= contanerId;
+  wg.Add(1)
+  go func() {
+	defer wg.Done()
+	 crud.CreateSandbox(&data,ch)
+  }()
+  id:=<-ch;
 
-   id := <-ch
+  go func() {
+	wg.Wait()
+	close(cm);
+	close(ch);
+  }()
    fmt.Print("id is ",id)
 
 	return c.JSON(fiber.Map{
 		"message": "Created successfully",
 		"sandBoxId":id,
+		"contnerId":contanerId,
 	})
 	
 }
