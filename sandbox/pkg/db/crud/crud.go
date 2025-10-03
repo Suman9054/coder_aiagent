@@ -51,7 +51,7 @@ func CreateSandbox(c *types.Create_data,  ch chan<- uint) {
 	ch <- sandbox.Id
 }
 
-func DeletSandbox(Id uint ,wg *sync.WaitGroup){
+func DeletSandbox(Id uint ,wg *sync.WaitGroup)error{
 	defer wg.Done()
 	ctx:= context.Background()
     db:=Db()
@@ -62,7 +62,7 @@ func DeletSandbox(Id uint ,wg *sync.WaitGroup){
 	}
 	
 	
-	
+	return err
 }
 
 func StopSandbox(Id uint){
