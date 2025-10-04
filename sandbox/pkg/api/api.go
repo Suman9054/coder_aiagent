@@ -10,6 +10,8 @@ import (
 	"github.com/Suman9054/sandbox/pkg/db/crud"
 	"github.com/Suman9054/sandbox/pkg/db/schema"
 	"github.com/Suman9054/sandbox/pkg/docker"
+	measg "github.com/Suman9054/sandbox/pkg/mesag"
+
 	"github.com/Suman9054/sandbox/pkg/types"
 	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/client"
@@ -163,20 +165,27 @@ func Handelcontaner(c *websocket.Conn){
 
 	 })
 	wg.Go(func() {
-		for {
+	for {
 		_, msg, err := c.ReadMessage()
 		if err != nil {
 			log.Println("WebSocket read error:", err)
 			return
 		}
-		log.Println("mesag",string(msg))
-		 _,erour:= res.Conn.Write([]byte(msg))
+		log.Println("mesag", string(msg))
+	    cmd,eror:= measg.PrasedMesage(string(msg))
+
+		if eror != nil {
+			c.WriteMessage(websocket.TextMessage,[]byte("err :"+eror.Error()))
+		}
+		log.Println("comand", cmd)
+		
+		_, erour := res.Conn.Write([]byte(cmd + "\n")) 
 		if erour != nil {
-			log.Println("Write to shell error:", err)
+			log.Println("Write to shell error:", erour)  
 			return
 		}
 	}
-	})
+})
 
 	wg.Wait()
 
