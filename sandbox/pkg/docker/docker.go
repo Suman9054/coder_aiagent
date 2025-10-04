@@ -22,6 +22,7 @@ func CreateContaner(Image string)string{
 	Image: Image ,
   Cmd: []string{"/bin/bash"},
   Tty: true,
+  
   },nil,nil,nil,"")
 
   if eror != nil{
