@@ -13,6 +13,8 @@
     "check": "prettier --write . && eslint --fix"
   },
   "dependencies": {
+    "@langchain/core": "^0.3.78",
+    "@langchain/ollama": "^0.2.4",
     "@prisma/client": "6.16.2",
     "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-select": "^2.2.6",

@@ -31,8 +31,10 @@ func (w *wsWriter) Write(p []byte) (int, error) {
 
 func Create(c *fiber.Ctx) error{
    var data types.Create_data
+   ctx:=context.Background()
    ch:= make(chan uint);
    cm:= make(chan string);
+   ck:= make(chan string)
    var wg sync.WaitGroup
    
    if err:= c.BodyParser(&data);err != nil{
@@ -45,25 +47,27 @@ func Create(c *fiber.Ctx) error{
 		"error":"emty fidels",
 	})
    }
-   wg.Add(1)
-   go func(){
-     defer wg.Done()
-	 contanerId:=docker.CreateContaner(data.Image);
+   wg.Go(func(){
+	 contanerId,containerName,err:=docker.CreateContainer(ctx,data.Image);
+	 if err != nil {
+		log.Panic("err"+err.Error())
+	 }
 	 cm<-contanerId;
-   }()
+	 ck<- containerName;
+   })
   contanerId:= <-cm ;
+  contanername:=<-ck
   data.ContanerId= contanerId;
-  wg.Add(1)
-  go func() {
-	defer wg.Done()
+  wg.Go(func() {
 	 crud.CreateSandbox(&data,ch)
-  }()
+  })
   id:=<-ch;
 
   go func() {
 	wg.Wait()
 	close(cm);
 	close(ch);
+	close(ck);
   }()
    fmt.Print("id is ",id)
 
@@ -71,6 +75,7 @@ func Create(c *fiber.Ctx) error{
 		"message": "Created successfully",
 		"sandBoxId":id,
 		"contnerId":contanerId,
+		"responseUrl":fmt.Sprintf("%s.localhost",contanername),
 	})
 	
 }
@@ -84,9 +89,7 @@ func Delete( c *fiber.Ctx)error{
 			"err":err.Error(),
 		})
 	}
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
+	wg.Go(func() {
 		db:=crud.Db()
 		var sandbox schema.Sandbox_shema
 		result := db.Where("id = ?", data.Id).First(&sandbox)
@@ -94,9 +97,8 @@ func Delete( c *fiber.Ctx)error{
 			return
 		}
 		docker.DeleteContaner(sandbox.ContanerId)
-	}()
-	wg.Add(1)
-	go crud.DeletSandbox(data.Id,&wg)
+		crud.DeletSandbox(data.Id,&wg)
+	})
 	go func() {
 		wg.Wait()
 	}()
@@ -122,7 +124,7 @@ func Handelcontaner(c *websocket.Conn){
       }
  
      defer cli.Close()
-    
+     defer cli.ContainerStop(ctx,workspaseId,container.StopOptions{})
 	 
 		eror:=cli.ContainerStart(ctx,workspaseId,container.StartOptions{})
 	   if eror != nil {

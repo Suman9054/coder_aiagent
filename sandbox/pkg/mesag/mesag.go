@@ -21,15 +21,20 @@ func PrasedMesage(mes string) (string, error) {
 			comnad = "mkdir -p $(dirname " + matchmfs[1] + ") && touch " + matchmfs[1]
 		}
 
-	case regexp.MustCompile(`<editf path="([\s\S]*?)"/>([\s\S]*?)</editf>`).MatchString(mes):
-		matchef := regexp.MustCompile(`<editf path="([\s\S]*?)"/>([\s\S]*?)</editf>`).FindStringSubmatch(mes)
+	case regexp.MustCompile(`<writf path="([\s\S]*?)"/>([\s\S]*?)</writf>`).MatchString(mes):
+		matchef := regexp.MustCompile(`<writf path="([\s\S]*?)"/>([\s\S]*?)</writf>`).FindStringSubmatch(mes)
 		if len(matchef) > 2 {
 			comnad = "mkdir -p $(dirname " + matchef[1] + ") && cat > " + matchef[1] + " << 'EOF'\n" + matchef[2] + "\nEOF"
 		}
 
 	case regexp.MustCompile(`<stop/>`).MatchString(mes):
-		// Here len will be 1 because no capture group
+		
 		comnad = "kill -2 $(jobs -p)"
+	
+	case regexp.MustCompile(`<runs/>`).MatchString(mes):
+		comnad = `bun run build && nginx -g "daemon off;"`
+	case regexp.MustCompile(`<exe>bun run dev</exe>`).MatchString(mes):
+		return "",errors.New("unsupported comand")	
 
 	default:
 		return "", errors.New("unsupported format")
