@@ -9,14 +9,33 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as UserworkspacesRouteImport } from './routes/userworkspaces'
+import { Route as UserDasbordRouteImport } from './routes/userDasbord'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as WorkspaceIdRouteImport } from './routes/workspace.$id'
 import { Route as ApiDemoTqTodosRouteImport } from './routes/api.demo-tq-todos'
 import { Route as ApiDemoNamesRouteImport } from './routes/api.demo-names'
 import { Route as ApiAuthSplatRouteImport } from './routes/api.auth.$'
+import { Route as ApiAiAgentRouteImport } from './routes/api.ai.agent'
 
+const UserworkspacesRoute = UserworkspacesRouteImport.update({
+  id: '/userworkspaces',
+  path: '/userworkspaces',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UserDasbordRoute = UserDasbordRouteImport.update({
+  id: '/userDasbord',
+  path: '/userDasbord',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WorkspaceIdRoute = WorkspaceIdRouteImport.update({
+  id: '/workspace/$id',
+  path: '/workspace/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiDemoTqTodosRoute = ApiDemoTqTodosRouteImport.update({
@@ -34,53 +53,115 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiAiAgentRoute = ApiAiAgentRouteImport.update({
+  id: '/api/ai/agent',
+  path: '/api/ai/agent',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/userDasbord': typeof UserDasbordRoute
+  '/userworkspaces': typeof UserworkspacesRoute
   '/api/demo-names': typeof ApiDemoNamesRoute
   '/api/demo-tq-todos': typeof ApiDemoTqTodosRoute
+  '/workspace/$id': typeof WorkspaceIdRoute
+  '/api/ai/agent': typeof ApiAiAgentRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/userDasbord': typeof UserDasbordRoute
+  '/userworkspaces': typeof UserworkspacesRoute
   '/api/demo-names': typeof ApiDemoNamesRoute
   '/api/demo-tq-todos': typeof ApiDemoTqTodosRoute
+  '/workspace/$id': typeof WorkspaceIdRoute
+  '/api/ai/agent': typeof ApiAiAgentRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/userDasbord': typeof UserDasbordRoute
+  '/userworkspaces': typeof UserworkspacesRoute
   '/api/demo-names': typeof ApiDemoNamesRoute
   '/api/demo-tq-todos': typeof ApiDemoTqTodosRoute
+  '/workspace/$id': typeof WorkspaceIdRoute
+  '/api/ai/agent': typeof ApiAiAgentRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/demo-names' | '/api/demo-tq-todos' | '/api/auth/$'
+  fullPaths:
+    | '/'
+    | '/userDasbord'
+    | '/userworkspaces'
+    | '/api/demo-names'
+    | '/api/demo-tq-todos'
+    | '/workspace/$id'
+    | '/api/ai/agent'
+    | '/api/auth/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/demo-names' | '/api/demo-tq-todos' | '/api/auth/$'
+  to:
+    | '/'
+    | '/userDasbord'
+    | '/userworkspaces'
+    | '/api/demo-names'
+    | '/api/demo-tq-todos'
+    | '/workspace/$id'
+    | '/api/ai/agent'
+    | '/api/auth/$'
   id:
     | '__root__'
     | '/'
+    | '/userDasbord'
+    | '/userworkspaces'
     | '/api/demo-names'
     | '/api/demo-tq-todos'
+    | '/workspace/$id'
+    | '/api/ai/agent'
     | '/api/auth/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  UserDasbordRoute: typeof UserDasbordRoute
+  UserworkspacesRoute: typeof UserworkspacesRoute
   ApiDemoNamesRoute: typeof ApiDemoNamesRoute
   ApiDemoTqTodosRoute: typeof ApiDemoTqTodosRoute
+  WorkspaceIdRoute: typeof WorkspaceIdRoute
+  ApiAiAgentRoute: typeof ApiAiAgentRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/userworkspaces': {
+      id: '/userworkspaces'
+      path: '/userworkspaces'
+      fullPath: '/userworkspaces'
+      preLoaderRoute: typeof UserworkspacesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/userDasbord': {
+      id: '/userDasbord'
+      path: '/userDasbord'
+      fullPath: '/userDasbord'
+      preLoaderRoute: typeof UserDasbordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/workspace/$id': {
+      id: '/workspace/$id'
+      path: '/workspace/$id'
+      fullPath: '/workspace/$id'
+      preLoaderRoute: typeof WorkspaceIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/demo-tq-todos': {
@@ -104,13 +185,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/ai/agent': {
+      id: '/api/ai/agent'
+      path: '/api/ai/agent'
+      fullPath: '/api/ai/agent'
+      preLoaderRoute: typeof ApiAiAgentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  UserDasbordRoute: UserDasbordRoute,
+  UserworkspacesRoute: UserworkspacesRoute,
   ApiDemoNamesRoute: ApiDemoNamesRoute,
   ApiDemoTqTodosRoute: ApiDemoTqTodosRoute,
+  WorkspaceIdRoute: WorkspaceIdRoute,
+  ApiAiAgentRoute: ApiAiAgentRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
 export const routeTree = rootRouteImport
