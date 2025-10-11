@@ -3,14 +3,19 @@ import { Card, CardContent, CardFooter } from "./ui/card";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { SendHorizontal } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
 
 const HomeInput: React.FC = () => {
   const [message, setMessage] = React.useState("");
 
+  const quaryclient = useQueryClient();
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!message.trim()) return;
-    console.log("Submitted:", message);
+    quaryclient.setQueryData(['mesages'],()=>{
+      return [{"id":"1","author":"user","mesage":message}]
+    })
     setMessage("");
   };
 

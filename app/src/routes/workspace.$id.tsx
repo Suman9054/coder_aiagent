@@ -1,19 +1,25 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
+import { useQueryClient } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import { SendHorizontal } from 'lucide-react'
+import z from 'zod'
 
 export const Route = createFileRoute('/workspace/$id')({
   component: RouteComponent,
 })
 
+const mesages =z.object({
+  id:z.string(),
+  author:z.string(),
+  mesage:z.string()
+})
+
 function RouteComponent() {
-  const mesage=[{
-    "id":"1",
-    "author":"user",
-    "mesage":"hii hallow how to "
-  }]
+  const quaryclient = useQueryClient();
+
+  const mesage:z.infer<typeof mesages>[] = quaryclient.getQueryData<typeof mesages>(['mesages']) ?? [];
   
   return( 
        <div className='flex  bg'>
