@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
+import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { useQueryClient } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
@@ -10,30 +10,38 @@ export const Route = createFileRoute('/workspace/$id')({
   component: RouteComponent,
 })
 
-const mesages =z.object({
-  id:z.string(),
-  author:z.string(),
-  mesage:z.string()
+const messageSchema = z.object({
+  id: z.string(),
+  author: z.string(),
+  mesage: z.string()
 })
+
+type Message = z.infer<typeof messageSchema>
+
+
 
 function RouteComponent() {
   const quaryclient = useQueryClient();
 
-  const mesage:z.infer<typeof mesages>[] = quaryclient.getQueryData<typeof mesages>(['mesages']) ?? [];
+  const messages = quaryclient.getQueryData<Message[]>(['mesages']) ?? [];
+
+ 
+
   
+
   return( 
-       <div className='flex  bg'>
+       <div className='flex'>
        
           <Card className='w-screen max-w-sm  m-3 h-screen bg-gray-700'>
-             <CardHeader><span className='text-amber-300'>coder0</span></CardHeader>
+             
              <CardContent>
-              {mesage.map((m) => (
+              {messages.map((m) => (
             <div key={m.id} className='text-sm text-gray-200'>
               <text className="font-semibold">{m.author}: </text>
               <text>{m.mesage}</text>
               <span className=''/>
             </div>
-          ))}
+             ))}
              </CardContent>
               <form className='flex '>
                 <Input placeholder='creat anything'/>
@@ -42,8 +50,12 @@ function RouteComponent() {
              </CardFooter>
              </form>
           </Card>
-     
-        <div className='max-w-fit bg-gray-700'></div>
+          <Card className='w-screen h-screen m-3 bg-gray-700'>
+            <CardContent>
+              <pre className='text-sm text-gray-200'>{}</pre>
+            </CardContent>
+          </Card>
+      
         </div>
   )
 }
