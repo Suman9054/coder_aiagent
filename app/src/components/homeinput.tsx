@@ -4,6 +4,7 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { SendHorizontal } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
+import { Message as ms } from "@/types/types";
 
 const HomeInput: React.FC = () => {
   const [message, setMessage] = React.useState("");
@@ -14,9 +15,14 @@ const HomeInput: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!message.trim()) return;
-    quaryclient.setQueryData(['mesages'],()=>{
-      return [{"id":"1","author":"user","mesage":message}]
-    })
+    const newMessage: ms = {
+      id: crypto.randomUUID(),
+      author: "User",
+      mesage: message.trim(),
+    };
+    quaryclient.setQueryData<ms[]>(['mesages'],(old= [])=>[
+      ...old, newMessage
+    ])
     setMessage("");
   };
 
