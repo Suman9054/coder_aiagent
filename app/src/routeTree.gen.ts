@@ -13,10 +13,10 @@ import { Route as UserworkspacesRouteImport } from './routes/userworkspaces'
 import { Route as UserDasbordRouteImport } from './routes/userDasbord'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as WorkspaceIdRouteImport } from './routes/workspace.$id'
-import { Route as ApiDemoTqTodosRouteImport } from './routes/api.demo-tq-todos'
 import { Route as ApiDemoNamesRouteImport } from './routes/api.demo-names'
 import { Route as ApiAuthSplatRouteImport } from './routes/api.auth.$'
 import { Route as ApiAiAgentRouteImport } from './routes/api.ai.agent'
+import { Route as ApiMesagestoreWorkspaceIdIdRouteImport } from './routes/api.mesagestore.$workspaceId.$Id'
 
 const UserworkspacesRoute = UserworkspacesRouteImport.update({
   id: '/userworkspaces',
@@ -38,11 +38,6 @@ const WorkspaceIdRoute = WorkspaceIdRouteImport.update({
   path: '/workspace/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiDemoTqTodosRoute = ApiDemoTqTodosRouteImport.update({
-  id: '/api/demo-tq-todos',
-  path: '/api/demo-tq-todos',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ApiDemoNamesRoute = ApiDemoNamesRouteImport.update({
   id: '/api/demo-names',
   path: '/api/demo-names',
@@ -58,26 +53,32 @@ const ApiAiAgentRoute = ApiAiAgentRouteImport.update({
   path: '/api/ai/agent',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiMesagestoreWorkspaceIdIdRoute =
+  ApiMesagestoreWorkspaceIdIdRouteImport.update({
+    id: '/api/mesagestore/$workspaceId/$Id',
+    path: '/api/mesagestore/$workspaceId/$Id',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/userDasbord': typeof UserDasbordRoute
   '/userworkspaces': typeof UserworkspacesRoute
   '/api/demo-names': typeof ApiDemoNamesRoute
-  '/api/demo-tq-todos': typeof ApiDemoTqTodosRoute
   '/workspace/$id': typeof WorkspaceIdRoute
   '/api/ai/agent': typeof ApiAiAgentRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/mesagestore/$workspaceId/$Id': typeof ApiMesagestoreWorkspaceIdIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/userDasbord': typeof UserDasbordRoute
   '/userworkspaces': typeof UserworkspacesRoute
   '/api/demo-names': typeof ApiDemoNamesRoute
-  '/api/demo-tq-todos': typeof ApiDemoTqTodosRoute
   '/workspace/$id': typeof WorkspaceIdRoute
   '/api/ai/agent': typeof ApiAiAgentRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/mesagestore/$workspaceId/$Id': typeof ApiMesagestoreWorkspaceIdIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -85,10 +86,10 @@ export interface FileRoutesById {
   '/userDasbord': typeof UserDasbordRoute
   '/userworkspaces': typeof UserworkspacesRoute
   '/api/demo-names': typeof ApiDemoNamesRoute
-  '/api/demo-tq-todos': typeof ApiDemoTqTodosRoute
   '/workspace/$id': typeof WorkspaceIdRoute
   '/api/ai/agent': typeof ApiAiAgentRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/mesagestore/$workspaceId/$Id': typeof ApiMesagestoreWorkspaceIdIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -97,30 +98,30 @@ export interface FileRouteTypes {
     | '/userDasbord'
     | '/userworkspaces'
     | '/api/demo-names'
-    | '/api/demo-tq-todos'
     | '/workspace/$id'
     | '/api/ai/agent'
     | '/api/auth/$'
+    | '/api/mesagestore/$workspaceId/$Id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/userDasbord'
     | '/userworkspaces'
     | '/api/demo-names'
-    | '/api/demo-tq-todos'
     | '/workspace/$id'
     | '/api/ai/agent'
     | '/api/auth/$'
+    | '/api/mesagestore/$workspaceId/$Id'
   id:
     | '__root__'
     | '/'
     | '/userDasbord'
     | '/userworkspaces'
     | '/api/demo-names'
-    | '/api/demo-tq-todos'
     | '/workspace/$id'
     | '/api/ai/agent'
     | '/api/auth/$'
+    | '/api/mesagestore/$workspaceId/$Id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -128,10 +129,10 @@ export interface RootRouteChildren {
   UserDasbordRoute: typeof UserDasbordRoute
   UserworkspacesRoute: typeof UserworkspacesRoute
   ApiDemoNamesRoute: typeof ApiDemoNamesRoute
-  ApiDemoTqTodosRoute: typeof ApiDemoTqTodosRoute
   WorkspaceIdRoute: typeof WorkspaceIdRoute
   ApiAiAgentRoute: typeof ApiAiAgentRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
+  ApiMesagestoreWorkspaceIdIdRoute: typeof ApiMesagestoreWorkspaceIdIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -164,13 +165,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkspaceIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/demo-tq-todos': {
-      id: '/api/demo-tq-todos'
-      path: '/api/demo-tq-todos'
-      fullPath: '/api/demo-tq-todos'
-      preLoaderRoute: typeof ApiDemoTqTodosRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/api/demo-names': {
       id: '/api/demo-names'
       path: '/api/demo-names'
@@ -192,6 +186,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAiAgentRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/mesagestore/$workspaceId/$Id': {
+      id: '/api/mesagestore/$workspaceId/$Id'
+      path: '/api/mesagestore/$workspaceId/$Id'
+      fullPath: '/api/mesagestore/$workspaceId/$Id'
+      preLoaderRoute: typeof ApiMesagestoreWorkspaceIdIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -200,10 +201,10 @@ const rootRouteChildren: RootRouteChildren = {
   UserDasbordRoute: UserDasbordRoute,
   UserworkspacesRoute: UserworkspacesRoute,
   ApiDemoNamesRoute: ApiDemoNamesRoute,
-  ApiDemoTqTodosRoute: ApiDemoTqTodosRoute,
   WorkspaceIdRoute: WorkspaceIdRoute,
   ApiAiAgentRoute: ApiAiAgentRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
+  ApiMesagestoreWorkspaceIdIdRoute: ApiMesagestoreWorkspaceIdIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

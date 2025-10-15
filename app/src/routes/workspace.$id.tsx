@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardFooter, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Message } from '@/types/types'
 import { useQueryClient } from '@tanstack/react-query'
@@ -10,6 +10,7 @@ import React from 'react'
 
 export const Route = createFileRoute('/workspace/$id')({
   component: RouteComponent,
+  ssr: false,
 })
 
 
@@ -53,14 +54,15 @@ function RouteComponent() {
              </CardContent>
              <CardFooter>
               <form className='flex ' onSubmit={onsubmit}>
-                <Input placeholder='creat anything' onChange={(e) => setMessages(e.target.value)} value={messagesa} className=''/>
+                <Input placeholder='creat anything' onChange={(e) => setMessages(e.target.value)} value={messagesa} className='focus-visible:border-none border-gray-400 w-80'/>
              
-             <Button variant={'link'} size={'icon'} ><SendHorizontal className="w-5 h-5" /></Button>
+             <Button variant={'link'} size={'icon'} ><SendHorizontal className="w-5 h-5" color='white' /></Button>
             
              </form>
               </CardFooter>
           </Card>
           <Card className='w-screen h-screen  bg-gray-700'>
+            <CardHeader></CardHeader>
             <CardContent>
               <pre className='text-sm text-gray-200'>{}</pre>
             </CardContent>
