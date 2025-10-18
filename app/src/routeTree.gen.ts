@@ -13,7 +13,9 @@ import { Route as UserworkspacesRouteImport } from './routes/userworkspaces'
 import { Route as UserDasbordRouteImport } from './routes/userDasbord'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as WorkspaceIdRouteImport } from './routes/workspace.$id'
+import { Route as ApiUseraiagentRouteImport } from './routes/api.useraiagent'
 import { Route as ApiDemoNamesRouteImport } from './routes/api.demo-names'
+import { Route as ApiCreatWorkspcaeUserIdRouteImport } from './routes/api.creatWorkspcae.$userId'
 import { Route as ApiAuthSplatRouteImport } from './routes/api.auth.$'
 import { Route as ApiAiAgentRouteImport } from './routes/api.ai.agent'
 import { Route as ApiMesagestoreWorkspaceIdIdRouteImport } from './routes/api.mesagestore.$workspaceId.$Id'
@@ -38,9 +40,19 @@ const WorkspaceIdRoute = WorkspaceIdRouteImport.update({
   path: '/workspace/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiUseraiagentRoute = ApiUseraiagentRouteImport.update({
+  id: '/api/useraiagent',
+  path: '/api/useraiagent',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiDemoNamesRoute = ApiDemoNamesRouteImport.update({
   id: '/api/demo-names',
   path: '/api/demo-names',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiCreatWorkspcaeUserIdRoute = ApiCreatWorkspcaeUserIdRouteImport.update({
+  id: '/api/creatWorkspcae/$userId',
+  path: '/api/creatWorkspcae/$userId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
@@ -65,9 +77,11 @@ export interface FileRoutesByFullPath {
   '/userDasbord': typeof UserDasbordRoute
   '/userworkspaces': typeof UserworkspacesRoute
   '/api/demo-names': typeof ApiDemoNamesRoute
+  '/api/useraiagent': typeof ApiUseraiagentRoute
   '/workspace/$id': typeof WorkspaceIdRoute
   '/api/ai/agent': typeof ApiAiAgentRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/creatWorkspcae/$userId': typeof ApiCreatWorkspcaeUserIdRoute
   '/api/mesagestore/$workspaceId/$Id': typeof ApiMesagestoreWorkspaceIdIdRoute
 }
 export interface FileRoutesByTo {
@@ -75,9 +89,11 @@ export interface FileRoutesByTo {
   '/userDasbord': typeof UserDasbordRoute
   '/userworkspaces': typeof UserworkspacesRoute
   '/api/demo-names': typeof ApiDemoNamesRoute
+  '/api/useraiagent': typeof ApiUseraiagentRoute
   '/workspace/$id': typeof WorkspaceIdRoute
   '/api/ai/agent': typeof ApiAiAgentRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/creatWorkspcae/$userId': typeof ApiCreatWorkspcaeUserIdRoute
   '/api/mesagestore/$workspaceId/$Id': typeof ApiMesagestoreWorkspaceIdIdRoute
 }
 export interface FileRoutesById {
@@ -86,9 +102,11 @@ export interface FileRoutesById {
   '/userDasbord': typeof UserDasbordRoute
   '/userworkspaces': typeof UserworkspacesRoute
   '/api/demo-names': typeof ApiDemoNamesRoute
+  '/api/useraiagent': typeof ApiUseraiagentRoute
   '/workspace/$id': typeof WorkspaceIdRoute
   '/api/ai/agent': typeof ApiAiAgentRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/creatWorkspcae/$userId': typeof ApiCreatWorkspcaeUserIdRoute
   '/api/mesagestore/$workspaceId/$Id': typeof ApiMesagestoreWorkspaceIdIdRoute
 }
 export interface FileRouteTypes {
@@ -98,9 +116,11 @@ export interface FileRouteTypes {
     | '/userDasbord'
     | '/userworkspaces'
     | '/api/demo-names'
+    | '/api/useraiagent'
     | '/workspace/$id'
     | '/api/ai/agent'
     | '/api/auth/$'
+    | '/api/creatWorkspcae/$userId'
     | '/api/mesagestore/$workspaceId/$Id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -108,9 +128,11 @@ export interface FileRouteTypes {
     | '/userDasbord'
     | '/userworkspaces'
     | '/api/demo-names'
+    | '/api/useraiagent'
     | '/workspace/$id'
     | '/api/ai/agent'
     | '/api/auth/$'
+    | '/api/creatWorkspcae/$userId'
     | '/api/mesagestore/$workspaceId/$Id'
   id:
     | '__root__'
@@ -118,9 +140,11 @@ export interface FileRouteTypes {
     | '/userDasbord'
     | '/userworkspaces'
     | '/api/demo-names'
+    | '/api/useraiagent'
     | '/workspace/$id'
     | '/api/ai/agent'
     | '/api/auth/$'
+    | '/api/creatWorkspcae/$userId'
     | '/api/mesagestore/$workspaceId/$Id'
   fileRoutesById: FileRoutesById
 }
@@ -129,9 +153,11 @@ export interface RootRouteChildren {
   UserDasbordRoute: typeof UserDasbordRoute
   UserworkspacesRoute: typeof UserworkspacesRoute
   ApiDemoNamesRoute: typeof ApiDemoNamesRoute
+  ApiUseraiagentRoute: typeof ApiUseraiagentRoute
   WorkspaceIdRoute: typeof WorkspaceIdRoute
   ApiAiAgentRoute: typeof ApiAiAgentRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
+  ApiCreatWorkspcaeUserIdRoute: typeof ApiCreatWorkspcaeUserIdRoute
   ApiMesagestoreWorkspaceIdIdRoute: typeof ApiMesagestoreWorkspaceIdIdRoute
 }
 
@@ -165,11 +191,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkspaceIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/useraiagent': {
+      id: '/api/useraiagent'
+      path: '/api/useraiagent'
+      fullPath: '/api/useraiagent'
+      preLoaderRoute: typeof ApiUseraiagentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/demo-names': {
       id: '/api/demo-names'
       path: '/api/demo-names'
       fullPath: '/api/demo-names'
       preLoaderRoute: typeof ApiDemoNamesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/creatWorkspcae/$userId': {
+      id: '/api/creatWorkspcae/$userId'
+      path: '/api/creatWorkspcae/$userId'
+      fullPath: '/api/creatWorkspcae/$userId'
+      preLoaderRoute: typeof ApiCreatWorkspcaeUserIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/auth/$': {
@@ -201,9 +241,11 @@ const rootRouteChildren: RootRouteChildren = {
   UserDasbordRoute: UserDasbordRoute,
   UserworkspacesRoute: UserworkspacesRoute,
   ApiDemoNamesRoute: ApiDemoNamesRoute,
+  ApiUseraiagentRoute: ApiUseraiagentRoute,
   WorkspaceIdRoute: WorkspaceIdRoute,
   ApiAiAgentRoute: ApiAiAgentRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
+  ApiCreatWorkspcaeUserIdRoute: ApiCreatWorkspcaeUserIdRoute,
   ApiMesagestoreWorkspaceIdIdRoute: ApiMesagestoreWorkspaceIdIdRoute,
 }
 export const routeTree = rootRouteImport

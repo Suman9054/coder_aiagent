@@ -42,6 +42,7 @@ func Create(c *fiber.Ctx) error{
 		"error":err.Error(),
 	})
    }
+   fmt.Print("data is ",data)
    if data.Image == "" || data.User_id == "" {
 	return c.Status(400).JSON(fiber.Map{
 		"error":"emty fidels",

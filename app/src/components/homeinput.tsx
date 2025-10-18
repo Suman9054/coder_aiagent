@@ -3,26 +3,31 @@ import { Card, CardContent, CardFooter } from "./ui/card";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { SendHorizontal } from "lucide-react";
-import { useQueryClient } from "@tanstack/react-query";
 import { Message as ms } from "@/types/types";
+import { authClient } from "@/lib/auth-client";
 
 const HomeInput: React.FC = () => {
   const [message, setMessage] = React.useState("");
 
-  const quaryclient = useQueryClient();
+  
   
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!message.trim()) return;
+    const session = await authClient.getSession();
+    if (!session  ) {
+      alert("Please log in to send a message.");
+      return;
+    }
     const newMessage: ms = {
       id: crypto.randomUUID(),
-      author: "User",
+      author: session.data?.user.name || "Unknown",
       mesage: message.trim(),
     };
-    quaryclient.setQueryData<ms[]>(['mesages'],(old= [])=>[
-      ...old, newMessage
-    ])
+   
+    
+   
     setMessage("");
   };
 

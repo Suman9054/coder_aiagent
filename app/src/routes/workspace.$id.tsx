@@ -10,7 +10,6 @@ import React from 'react'
 
 export const Route = createFileRoute('/workspace/$id')({
   component: RouteComponent,
-  ssr: false,
 })
 
 
