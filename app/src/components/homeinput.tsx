@@ -5,6 +5,7 @@ import { Button } from "./ui/button";
 import { SendHorizontal } from "lucide-react";
 import { Message as ms } from "@/types/types";
 import { authClient } from "@/lib/auth-client";
+import { Post } from "@/lib/fetch";
 
 const HomeInput: React.FC = () => {
   const [message, setMessage] = React.useState("");
@@ -26,7 +27,9 @@ const HomeInput: React.FC = () => {
       mesage: message.trim(),
     };
    
-    
+    const respos = await Post("/api/useraiagent",{"prompt":message.trim()})
+
+    console.log(respos)
    
     setMessage("");
   };

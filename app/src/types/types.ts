@@ -4,11 +4,13 @@ import z from "zod"
 export const messageSchema = z.object({
   id: z.string(),
   author: z.string(),
-  mesage: z.string()
+  mesage: z.string(),
+  key: z.string().optional(),
 })
 
 const serverMessageSchema = messageSchema.extend({
   createdAt:z.date().optional().default(new Date()),
+ 
 })
 
 const user = z.object({
