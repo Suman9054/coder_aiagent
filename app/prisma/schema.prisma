@@ -75,7 +75,7 @@ model Verification {
 }
 
 model Workspace{
-  id         String @id
+  id         String @id @default(cuid())
   userId     String
   user       User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   PreviewLink  String

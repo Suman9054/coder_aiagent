@@ -8,7 +8,7 @@ import { SendHorizontal } from 'lucide-react'
 import React from 'react'
 
 
-export const Route = createFileRoute('/workspace/$id')({
+export const Route = createFileRoute('/workspace/$urlstring')({
   component: RouteComponent,
 })
 

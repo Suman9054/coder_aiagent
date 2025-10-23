@@ -6,30 +6,39 @@ import { SendHorizontal } from "lucide-react";
 import { Message as ms } from "@/types/types";
 import { authClient } from "@/lib/auth-client";
 import { Post } from "@/lib/fetch";
+import { useNavigate } from "@tanstack/react-router";
+
 
 const HomeInput: React.FC = () => {
   const [message, setMessage] = React.useState("");
 
-  
+  const navigation = useNavigate();
   
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!message.trim()) return;
     const session = await authClient.getSession();
-    if (!session  ) {
+    if (!session.data?.session  ) {
       alert("Please log in to send a message.");
       return;
     }
     const newMessage: ms = {
       id: crypto.randomUUID(),
-      author: session.data?.user.name || "Unknown",
+      author: session.data?.user.name || "User",
       mesage: message.trim(),
+      key:"user-" + session.data?.user.id,
+      urlstring: crypto.randomUUID()
     };
+  
+   const response = Post(`/api/mesagestore/${newMessage.urlstring}/${session.data?.user.id}`, newMessage);
    
-    const respos = await Post("/api/useraiagent",{"prompt":message.trim()})
+   if (!response) {
+     alert("Failed to send message.");
+     return;
+   }
 
-    console.log(respos)
+   navigation({ to: `/workspace/${newMessage.urlstring}` });
    
     setMessage("");
   };

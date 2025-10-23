@@ -16,8 +16,17 @@ export const Route = createFileRoute('/api/useraiagent')({
               {role:'system', content:useraisystemprompt()},
               {role:'user',content:prompt}
             ])
+            let image;
+            const images = aiResponse.match(/<framework>([\s\S]*?)<\/framework>/)?.[1]?.trim();
+           if(images === 'vite'){
+               image = "coderaiagentreactubuntu"
+           }
+            const promptModified = aiResponse.match(/<promt>([\s\S]*?)<\/promt>/)?.[1]?.trim();
+            console.log("Modified Prompt extracted:", promptModified);
 
-            return Response.json({airespons:JSON.stringify(aiResponse)},{status:200})
+           
+
+            return Response.json({image:JSON.stringify(image),prompt:promptModified},{status:200})
           } catch (error) {
             return Response.json({error: 'Internal Server Error',err:error}, {status: 500});
           }

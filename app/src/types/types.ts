@@ -6,6 +6,7 @@ export const messageSchema = z.object({
   author: z.string(),
   mesage: z.string(),
   key: z.string().optional(),
+  urlstring: z.string().optional(),
 })
 
 const serverMessageSchema = messageSchema.extend({
