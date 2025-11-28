@@ -10,17 +10,15 @@ import { createClient } from "redis";
 export const Route = createFileRoute('/api/mesagestore/$urlstring/$Id')({
   server: {
     handlers: {
-      GET: async ({request,params}) => {
+      GET: async ({params}) => {
         try {
         const {urlstring, Id} = params;
-        const body = request.json();
-        const {key} = await body
         const client = await createClient()
         .on("error", (err) => console.log("Redis Client Error", err))
         .connect();
        
 
-        const usermessages = await client.get(`lastMessage:${urlstring}:${Id}:${key}`);
+        const usermessages = await client.get(`lastMessage:${urlstring}:${Id}`);
       
         await client.quit();
 
@@ -40,7 +38,7 @@ export const Route = createFileRoute('/api/mesagestore/$urlstring/$Id')({
           return Response.json({error: 'Invalid message'}, {status: 400});
         } 
        
-      const mesage =  await client.set(`lastMessage:${urlstring}:${Id}:${parsed.data.key}`, JSON.stringify({ ...parsed.data, createdAt: new Date() }));
+      const mesage =  await client.set(`lastMessage:${urlstring}:${Id}`, JSON.stringify({ ...parsed.data, createdAt: new Date() }));
         await client.quit();
        
         return Response.json(mesage)
